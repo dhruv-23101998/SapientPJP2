@@ -1,0 +1,48 @@
+--------Session Started-----------
+Operation - Add/Substract Two Dates
+Enter Date 1(DD/MM/YYYY)
+Input - 20/01/2020
+Enter Date 2(DD/MM/YYYY)
+Input - 21/01/2019
+Want to Add - Enter '+', Otherwise Enter '-'
+Input - +
+Output - 13/03/4039
+ 
+Operation - Add/Substract Days From Date
+Enter Date (DD/MM/YYYY)
+Input - 20/01/2020
+Enter Days
+Input - 5
+Want to Add - Enter '+', Otherwise Enter '-'
+Input - +
+Output - 25/01/2020
+ 
+Operation - Clear History
+History Cleared!
+ 
+--------Session Ended-----------
+
+--------Session Started-----------
+Operation - Find Weekday Given Date
+Enter Date (DD/MM/YYYY)
+Input - 24/08/2020
+Output - 
+ 
+Operation - Natural Language Phrases Converter
+Enter Natural Language Phrase To Be Converted To Date
+Input - toDAy
+Output - 24/08/2020
+ 
+Operation - Natural Language Phrases Converter
+Enter Natural Language Phrase To Be Converted To Date
+Input - 2 weeks              from NoW              
+Output - 07/09/2020
+ 
+Operation - Clear History
+History Cleared!
+ 
+--------Session Ended-----------
+
+--------Session Started-----------
+--------Session Ended-----------
+
