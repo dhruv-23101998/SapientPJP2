@@ -1,0 +1,1 @@
+mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=C:/Week2MavenProject-1.0-SNAPSHOT.jar -DgroupId=com.sapient.maven -DartifactId=Week2MavenProject -Dpackaging=jar -Dversion=1.0
