@@ -1,0 +1,10 @@
+Client Id, Transaction Type, Transaction Date, Priority, Processing Fee
+1,buy,8/24/2020,Y,10
+2,withdraw,9/14/1998,N,10
+10,buy,12/15/2009,N,50
+11,withdraw,11/28/2004,N,100
+1,sell,8/24/2020,N,10
+12,sell,10/23/1998,N,100
+2,deposit,9/14/1998,Y,10
+1,buy,5/30/2005,Y,500
+5,buy,1/21/2020,N,50

@@ -1,0 +1,10 @@
+External Transaction ID,Client ID,Security ID,Transaction Type,Transaction Date,Market Value,Priority Flag
+45,1,345,buy,8/24/2020,10000,Y
+56,2,453,withdraw,9/14/1998,7481,N
+36,10,7848,buy,12/15/2009,48745,N
+43,11,5564,withdraw,11/28/2004,545544,N
+346,1,345,sell,8/24/2020,10000,N
+634,12,8787,sell,10/23/1998,4871,N
+35,2,453,deposit,9/14/1998,7481,Y
+454,1,543,buy,5/30/2005,44547,Y
+57,5,741,buy,1/21/2020,487515,N
