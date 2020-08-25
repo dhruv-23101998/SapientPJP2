@@ -42,7 +42,7 @@ public class IncomeData {
 			ans=ans/66.0;
 		else if(this.currency.equalsIgnoreCase("GBP"))
 			ans=ans/0.67;
-		else if(this.currency.equalsIgnoreCase("SGD"))
+		else if(this.currency.equalsIgnoreCase("SGP"))
 			ans=ans/1.5;
 		else if(this.currency.equalsIgnoreCase("HKD"))
 			ans=ans/8.0;
