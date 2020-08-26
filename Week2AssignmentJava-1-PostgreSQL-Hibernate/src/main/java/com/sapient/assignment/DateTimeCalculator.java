@@ -1,13 +1,13 @@
 package com.sapient.assignment;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.*;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -45,19 +45,16 @@ public class DateTimeCalculator {
 		this.session=sf.openSession();
 	}
 	public int getSessionNumber() {
-		File filename=new File("C:\\Users\\Dhruv Agarwal\\Desktop\\PJP2\\Week2AssignmentJava-1-PostgreSQL-Hibernate\\src\\main\\resources\\ConsoleSessionNumber.txt");
-		try {
-			Scanner in = new Scanner(filename);
-			String line=in.nextLine();
-			in.close();
-			line.trim();
-			int sessionNumber=Integer.parseInt(line);
-			sessionNumber++;
-			return sessionNumber;
-		} catch(Exception e) {
-			System.out.println("File Does Not Exist");
-		}
-		return 1;
+		int sessionNumber=0;
+		session.beginTransaction();
+		Query query=session.createQuery("FROM OperationTable");
+		@SuppressWarnings("unchecked")
+		List<OperationTable> list=(List<OperationTable>)query.list();
+		if(list.size()==0)
+			sessionNumber=1;
+		else sessionNumber=Integer.parseInt(list.get(list.size()-1).getSessionNumber())+1;
+		session.getTransaction().commit();
+		return sessionNumber;
 	}
 	public void initialize() throws IOException {
 		for(int i=0;i<menu.size();i++)
@@ -65,9 +62,6 @@ public class DateTimeCalculator {
 		@SuppressWarnings("resource")
 		Scanner in=new Scanner(System.in);
 		int sessionNumber=this.getSessionNumber();
-		BufferedWriter out=new BufferedWriter(new FileWriter("C:\\\\Users\\\\Dhruv Agarwal\\\\Desktop\\\\PJP2\\\\Week2AssignmentJava-1-PostgreSQL-Hibernate\\\\src\\\\main\\\\resources\\\\ConsoleSessionNumber.txt"));
-		out.write(String.valueOf(sessionNumber));
-		out.close();
 		while(true) {
 			this.session.beginTransaction();
 			OperationTable row=new OperationTable();
@@ -80,15 +74,21 @@ public class DateTimeCalculator {
 				row.setError("Invalid Input!");
 				row.setEd(new Timestamp(new DateTime().getMillis()).toString());
 				System.out.println("Invalid Input!");
+				this.session.getTransaction().commit();
+				this.session.save(row);
 				continue;
 			}
 			int n=Integer.parseInt(s);
 			this.calculate(n,row);
 			row.setEd(new Timestamp(new DateTime().getMillis()).toString());
 			this.session.getTransaction().commit();
-			if(n!=8 && n!=10)
+			if(n!=8 && n!=10) 
 				this.session.save(row);
-			if(n==0) break;
+			if(n==0) {
+				this.session.beginTransaction();
+				this.session.getTransaction().commit();
+				break;
+			}
 		}
 		this.session.close();
 	}
@@ -105,12 +105,10 @@ public class DateTimeCalculator {
 			localHistory.add("Operation - Add/Substract Two Dates");
 			localHistory.add("Enter Date 1(DD/MM/YYYY)");
 			System.out.println("Enter Date 1(DD/MM/YYYY)");
-			Calendar date1=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date1));
+			Calendar date1=DateOperations.stringToDate(takeInput(),row,1);
 			localHistory.add("Enter Date 2(DD/MM/YYYY)");
 			System.out.println("Enter Date 2(DD/MM/YYYY)");
-			Calendar date2=DateOperations.stringToDate(takeInput(),row);
-			row.setDate2(DateOperations.dateToString(date2));
+			Calendar date2=DateOperations.stringToDate(takeInput(),row,2);
 			System.out.println("Want to Add - Enter '+', Otherwise Enter '-'");
 			localHistory.add("Want to Add - Enter '+', Otherwise Enter '-'");
 			String oper=takeInput();
@@ -123,8 +121,7 @@ public class DateTimeCalculator {
 			localHistory.add("Operation - Add/Substract Days From Date");
 			localHistory.add("Enter Date (DD/MM/YYYY)");
 			System.out.println("Enter Date (DD/MM/YYYY)");
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date));
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			localHistory.add("Enter Days");
 			System.out.println("Enter Days");
 			int days=Integer.parseInt(takeInput());
@@ -144,8 +141,7 @@ public class DateTimeCalculator {
 			localHistory.add("Operation - Add/Substract Weeks From Date");
 			localHistory.add("Enter Date (DD/MM/YYYY)");
 			System.out.println("Enter Date (DD/MM/YYYY)");
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date));
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			localHistory.add("Enter Weeks");
 			System.out.println("Enter Weeks");
 			int weeks=Integer.parseInt(takeInput());
@@ -165,8 +161,7 @@ public class DateTimeCalculator {
 			localHistory.add("Operation - Add/Substract Months From Date");
 			localHistory.add("Enter Date (DD/MM/YYYY)");
 			System.out.println("Enter Date (DD/MM/YYYY)");
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date));
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			localHistory.add("Enter Months");
 			System.out.println("Enter Months");
 			int months=Integer.parseInt(takeInput());
@@ -186,17 +181,15 @@ public class DateTimeCalculator {
 			localHistory.add("Operation - Find Weekday Given Date");
 			localHistory.add("Enter Date (DD/MM/YYYY)");
 			System.out.println("Enter Date (DD/MM/YYYY)");
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			row.setType("Find Weekday Given Date");
-			row.setDate1(DateOperations.dateToString(date));
 			ans=DateOperations.findWeekday(date);
 		}
 		else if(n==6) {
 			localHistory.add("Operation - Find Week Number Given Date");
 			localHistory.add("Enter Date (DD/MM/YYYY)");
 			System.out.println("Enter Date (DD/MM/YYYY)");
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date));
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			row.setType("Find Week Number Given Date");
 			ans=DateOperations.findWeekNumber(date);
 		}

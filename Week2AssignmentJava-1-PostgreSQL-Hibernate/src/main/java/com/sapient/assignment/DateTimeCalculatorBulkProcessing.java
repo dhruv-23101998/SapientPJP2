@@ -35,7 +35,14 @@ public class DateTimeCalculatorBulkProcessing {
 		this.session=sf.openSession();
 	}
 	public void initialize() {
-		sessionNumber=1;
+		session.beginTransaction();
+		Query query=session.createQuery("FROM OperationTable");
+		@SuppressWarnings("unchecked")
+		List<OperationTable> list=(List<OperationTable>)query.list();
+		if(list.size()==0)
+			sessionNumber=1;
+		else sessionNumber=Integer.parseInt(list.get(list.size()-1).getSessionNumber())+1;
+		session.getTransaction().commit();
 		while(in.hasNextLine()) {
 			this.session.beginTransaction();
 			OperationTable row=new OperationTable();
@@ -47,6 +54,8 @@ public class DateTimeCalculatorBulkProcessing {
 			if(!isNumeric) {
 				row.setError("Invalid Input!");
 				row.setEd(new Timestamp(new DateTime().getMillis()).toString());
+				this.session.getTransaction().commit();
+				this.session.save(row);
 				continue;
 			}
 			int n=Integer.parseInt(s);
@@ -54,8 +63,13 @@ public class DateTimeCalculatorBulkProcessing {
 			row.setEd(new Timestamp(new DateTime().getMillis()).toString());
 			this.session.getTransaction().commit();
 			this.session.save(row);
-			if(n==0)
+			if(n==0) {
 				sessionNumber++;
+				if(!in.hasNextLine()) {
+					this.session.beginTransaction();
+					this.session.getTransaction().commit();
+				}
+			}
 		}
 		this.session.close();
 	}
@@ -98,10 +112,8 @@ public class DateTimeCalculatorBulkProcessing {
 	public void calculate(int n,OperationTable row) {
 		String ans="";
 		if(n==1) {
-			Calendar date1=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date1));
-			Calendar date2=DateOperations.stringToDate(takeInput(),row);
-			row.setDate2(DateOperations.dateToString(date2));
+			Calendar date1=DateOperations.stringToDate(takeInput(),row,1);
+			Calendar date2=DateOperations.stringToDate(takeInput(),row,2);
 			String oper=takeInput();
 			if(oper.equals("+"))
 				ans=DateOperations.dateToString(DateOperations.addDates(date1,date2,row));
@@ -109,8 +121,7 @@ public class DateTimeCalculatorBulkProcessing {
 				ans=DateOperations.substractDates(date1,date2,row);
 		}
 		else if(n==2) {
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date));
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			int days=Integer.parseInt(takeInput());
 			row.setDays(String.valueOf(days));
 			String oper=takeInput();
@@ -123,8 +134,7 @@ public class DateTimeCalculatorBulkProcessing {
 			ans=DateOperations.dateToString(DateOperations.addDaysToDate(date,days));
 		}
 		else if(n==3) {
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date));
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			int weeks=Integer.parseInt(takeInput());
 			row.setWeeks(String.valueOf(weeks));
 			String oper=takeInput();
@@ -137,8 +147,7 @@ public class DateTimeCalculatorBulkProcessing {
 			ans=DateOperations.dateToString(DateOperations.addWeeksToDate(date,weeks));
 		}
 		else if(n==4) {
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date));
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			int months=Integer.parseInt(takeInput());
 			row.setMonths(String.valueOf(months));
 			String oper=takeInput();
@@ -151,14 +160,12 @@ public class DateTimeCalculatorBulkProcessing {
 			ans=DateOperations.dateToString(DateOperations.addMonthsToDate(date,months));
 		}
 		else if(n==5) {
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			row.setType("Find Weekday Given Date");
-			row.setDate1(DateOperations.dateToString(date));
 			ans=DateOperations.findWeekday(date);
 		}
 		else if(n==6) {
-			Calendar date=DateOperations.stringToDate(takeInput(),row);
-			row.setDate1(DateOperations.dateToString(date));
+			Calendar date=DateOperations.stringToDate(takeInput(),row,1);
 			row.setType("Find Week Number Given Date");
 			ans=DateOperations.findWeekNumber(date);
 		}

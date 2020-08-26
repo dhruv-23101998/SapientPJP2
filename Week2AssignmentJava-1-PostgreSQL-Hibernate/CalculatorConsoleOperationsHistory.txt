@@ -10,7 +10,7 @@ Output - 13/03/4039
  
 Operation - Natural Language Phrases Converter
 Enter Natural Language Phrase To Be Converted To Date
-Input - toDaY
+Input - toDAY
 Output - 26/08/2020
  
 Operation - Find Weekday Given Date
@@ -18,37 +18,27 @@ Enter Date (DD/MM/YYYY)
 Input - 26/08/2020
 Output - WEDNESDAY
  
-Operation - Clear History
-History Cleared!
- 
-Operation - Add/Substract Days From Date
-Enter Date (DD/MM/YYYY)
-Input - 26/08/2020
-Enter Days
-Input - 5
-Want to Add - Enter '+', Otherwise Enter '-'
-Input - +
-Output - 31/08/2020
- 
 --------Session Ended-----------
 
 --------Session Started-----------
+Operation - Natural Language Phrases Converter
+Enter Natural Language Phrase To Be Converted To Date
+Input - toMOrROw
+Output - 27/08/2020
+ 
 Operation - Find Weekday Given Date
 Enter Date (DD/MM/YYYY)
-Input - 25/08/2020
-Output - TUESDAY
- 
-Operation - Clear History
-History Cleared!
+Input - 28/08/2020
+Output - FRIDAY
  
 Operation - Add/Substract Two Dates
 Enter Date 1(DD/MM/YYYY)
-Input - 21/05/2013
+Input - 21/49/2020
 Enter Date 2(DD/MM/YYYY)
-Input - 25/48/2019
+Input - 21/01/2019
 Want to Add - Enter '+', Otherwise Enter '-'
 Input - +
-Output - 16/02/4034
+Output - 17/10/4039
  
 --------Session Ended-----------
 

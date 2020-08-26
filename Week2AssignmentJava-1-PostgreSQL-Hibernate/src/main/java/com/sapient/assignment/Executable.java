@@ -19,7 +19,7 @@ public class Executable {
 		else if(input.equals("2")) {
 			DateTimeCalculatorBulkProcessing calculator=new DateTimeCalculatorBulkProcessing("BulkOperationsFile.txt");
 			calculator.initialize();
-			calculator.retriveDataOfLastNSessions("RetrivedData.csv",200);
+			calculator.retriveDataOfLastNSessions("RetrivedData.csv",202);
 		}
 		else {
 			throw new InvalidParameterException("Invalid Input!");

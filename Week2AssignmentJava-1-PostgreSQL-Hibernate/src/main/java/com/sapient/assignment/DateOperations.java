@@ -51,8 +51,11 @@ public class DateOperations {
 		int ans=date.get(Calendar.WEEK_OF_YEAR);
 		return String.valueOf(ans);
 	}
-	public static Calendar stringToDate(String s,OperationTable row) {
+	public static Calendar stringToDate(String s,OperationTable row,int dateno) {
 		SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+		if(dateno==1)
+			row.setDate1(s);
+		else row.setDate2(s);
 		Calendar ans=Calendar.getInstance();
 		try {
 			sdf.setLenient(false);
