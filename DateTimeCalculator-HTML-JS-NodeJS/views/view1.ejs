@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Add/Substract Two Dates</title>
+		<meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	   	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+	    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		<style>
+		.page {
+			background-color:white;
+			font-family: 'Kavivanar', cursive;
+			font-size:100%;
+			padding:20px;
+			margin:auto;
+		}
+		input[type="submit"] { 
+			background-color:white; 
+			font-family: 'Kavivanar', cursive;
+			color: solid black; 
+			border: solid black 2px; 
+			padding:15px;
+		}
+	</style>
+	</head>
+	<body class="page">
+		<h2>Provide Following Inputs To Get Result of Operation</h2>
+		<h3>Operation - Add/Substract Two Dates</h3>
+		<form action="javascript:$('.result').append('<p> Result of Operation: '+ans+'</p>');" id="formphrase">
+			<input type="hidden" name="type" value="1" readonly>
+			Enter Date 1 (YYYY-MM-DD): <input type="text" id="date1"/>
+			<br/><br/>
+			Enter Date 2 (YYYY-MM-DD): <input type="text" id="date2"/>
+			<br/><br/>
+			<select class="form-control" id="operation" name="operation">
+              <option value="1">Add Dates</option>
+              <br/><br/>
+              <option value="2">Substract Dates</option>
+            </select>
+			<br/><br/>
+			<input type="submit" value="Submit"/>
+		</form>
+		<script>
+			$("#date1").datepicker({dateFormat:'yy-mm-dd'});
+			$("#date2").datepicker({dateFormat:'yy-mm-dd'});
+			var ans;
+			$(document).ready(function(){  
+				$("form").submit(function(event) {
+					$('.result').html("");
+					var strdate1=$('#date1').val();
+					var strdate2=$('#date2').val();
+					var type=$('#operation').val();
+					var date1=new Date(strdate1);
+					var date2=new Date(strdate2);
+					if(type==1) {
+			            date1.addDays(date2.getDate());
+			            date1.addMonths(date2.getMonth());
+			            date1.addYears(date2.getFullYear());
+			            ans=date1.toUTCString();
+			        }
+			        else {
+			        	const diffTime=Math.abs(date1-date2);
+            			const diffDays=Math.ceil(diffTime/(1000*60*60*24)); 
+            			const diffWeeks=Math.floor(diffTime/(1000*60*60*24*7)); 
+           		 		const diffMonths=Math.floor(diffTime/(1000*60*60*24*7*30)); 
+            			const diffYears=Math.floor(diffTime/(1000*60*60*24*7*365));
+            			ans='Days Between '+diffDays+' : Weeks Between '+diffWeeks+' : Months Between '+diffMonths+' : Years Between '+diffYears;
+			        }
+	    		});
+			});
+			Date.prototype.addDays=function(days) {
+			    this.setDate(this.getDate()+parseInt(days));
+			    return this;
+			};
+			Date.prototype.addMonths=function(months) {
+			    this.setMonth(this.getMonth()+parseInt(months));
+			    return this;
+			};
+			Date.prototype.addYears=function(years) {
+			    this.setFullYear(this.getFullYear()+parseInt(years));
+			    return this;
+			};
+		</script>
+		<br/>
+		<div class="result">
+		</div>
+		<br/>
+		<a href="index.ejs">Back To Menu</a>
+	</body>
+</html>

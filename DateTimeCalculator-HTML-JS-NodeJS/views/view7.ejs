@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="ISO-8859-1">
+	<title>Natural Language Phrases Converter</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<style>
+		.page {
+			background-color:white;
+			font-family: 'Kavivanar', cursive;
+			font-size:100%;
+			padding:20px;
+			margin:auto;
+		}
+		input[type="submit"] { 
+			background-color:white; 
+			font-family: 'Kavivanar', cursive;
+			color: solid black; 
+			border: solid black 2px; 
+			padding:15px;
+		}
+	</style>
+	</head>
+	<body class="page">
+		<h2>Provide Following Inputs To Get Result of Operation</h2>
+		<h3>Operation - Natural Language Phrases Converter</h3>
+		<form action="javascript:$('.result').append('<p> Result of Operation: '+ans+'</p>');" id="formphrase">
+			<input type="hidden" name="type" value="7" readonly>
+			Enter Phrase: <input type="text" id="phrase"/>
+			<br/><br/>
+			<input type="submit" value="Submit"/>
+		</form>
+		<script>
+			var ans;
+			$(document).ready(function(){  
+				$("form").submit(function(event) {
+					$('.result').html("");
+					var phrase=$('#phrase').val();
+					ans=NaturalLanguageProcessor(phrase);
+	    		});
+			});
+			function NaturalLanguageProcessor(phrase) {
+			    var now=new Date();
+			    phrase=phrase.toLowerCase();
+			    var n=(phrase.match(/\d+/)!=null)?phrase.match(/\d+/)[0]:0;
+			    if(phrase.includes("tomorrow")){
+			        return now.addDays(1).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("today")) {
+			        return now.toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("days earlier")) {
+			        return now.minusDays(n).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("month") && phrase.includes("earlier")) {
+			        return now.minusMonths(n).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("next month")) {
+			        return now.addMonths(1).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("yesterday")) {
+			        return now.minusDays(1).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("day before yesterday")) {
+			        return now.minusDays(2).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("next week")) {
+			        return now.addDays(7).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("month") && phrase.includes("before")) {
+			        return now.minusMonths(n).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("weeks from now")) {
+			        return now.addDays(n*7).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("previous week")) {
+			        return now.minusDays(7).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("last month")) {
+			        return now.minusMonths(1).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("last week")) {
+			        return now.minusDays(7).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("months earlier")) {
+			        return now.minusMonths(n).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("last year")) {
+			        return now.minusYears(1).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("next year")) {
+			        return now.addYears(1).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("days from now")) {
+			        return now.addDays(n).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("months from now")) {
+			        return now.addMonths(n).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("years from now")) {
+			        return now.addYears(n).toUTCString().substring(5,16);
+			    }
+			    else if(phrase.includes("weeks") && phrase.includes("earlier")) {
+			        return now.minusDays(n*7).toUTCString().substring(5,16);
+			    }
+			    else {
+			        return "Can't Process Your Phrase! Try Another One."
+			    }
+			}
+			Date.prototype.addDays=function(days) {
+			    this.setDate(this.getDate()+parseInt(days));
+			    return this;
+			};
+
+			Date.prototype.addMonths=function(months) {
+			    this.setMonth(this.getMonth()+parseInt(months));
+			    return this;
+			};
+
+			Date.prototype.addYears=function(years) {
+			    this.setFullYear(this.getFullYear()+parseInt(years));
+			    return this;
+			};
+
+			Date.prototype.minusDays=function(days) {
+			    this.setDate(this.getDate()-parseInt(days));
+			    return this;
+			};
+
+			Date.prototype.minusMonths=function(months) {
+			    this.setMonth(this.getMonth()-parseInt(months) );
+			    return this;
+			};
+
+			Date.prototype.minusYears=function(years) {
+			    this.setFullYear(this.getFullYear()-parseInt(years));
+			    return this;
+			};
+		</script>
+		<br/>
+		<div class="result">
+		</div>
+		<br/>
+		<a href="index.ejs">Back To Menu</a>
+	</body>
+</html>

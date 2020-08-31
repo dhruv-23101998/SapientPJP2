@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Time Calculator</title>
+   	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<style>
+		.page {
+			background-color:white;
+			font-family: 'Kavivanar', cursive;
+			font-size:100%;
+			padding:20px;
+			margin:auto;
+		}
+		input[type="submit"] { 
+			background-color:white; 
+			font-family: 'Kavivanar', cursive;
+			color: solid black; 
+			border: solid black 2px; 
+			padding:15px;
+		}
+	</style>
+</head>
+	<body class="page">
+		<header><h1>Date Time Calculator Application</h1></header>
+		<div class="page1">
+			<h2>Menu of Date Time Calculator</h2>
+			<form action="view1.ejs">
+				<input type="submit" value="Add/Substract Two Dates"/>
+			</form>
+			<br/>
+			<form action="view2.ejs">
+				<input type="submit" value="Add/Substract Days From Date"/>
+			</form>
+			<br/>
+			<form action="view3.ejs">
+				<input type="submit" value="Add/Substract Weeks From Date"/>
+			</form>
+			<br/>
+			<form action="view4.ejs">
+				<input type="submit" value="Add/Substract Months From Date"/>
+			</form>
+			<br/>
+			<form action="view5.ejs">
+				<input type="submit" value="Find Weekday Given Date"/>
+			</form>
+			<br/>
+			<form action="view6.ejs">
+				<input type="submit" value="Find Week Number Given Date"/>
+			</form>
+			<br/>
+			<form action="view7.ejs">
+				<input type="submit" value="Natural Language Phrases Converter"/>
+			</form>
+		</div>
+	</body>
+</html>
